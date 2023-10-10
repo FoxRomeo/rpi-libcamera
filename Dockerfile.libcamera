@@ -36,7 +36,7 @@ RUN passwd -l root ; \
     git clone https://git.libcamera.org/libcamera/libcamera.git --depth=1 && \
     cd libcamera && \
     meson build && \
-    ninja -C build install && \
+    ninja -C build -j 1 install && \
     cd / && \
     rm -rf /tmp/* /var/tmp/* ~/.cache
 
