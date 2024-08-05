@@ -3,9 +3,7 @@ MAINTAINER docker@intrepid.de
 
 ENV TZ="Europe/Berlin"
 
-#COPY health.sh /
 RUN passwd -l root ; \
-#    chmod 755 /health.sh && \
     apk --update --upgrade --no-cache add \
       bash \
       alpine-sdk \
@@ -38,7 +36,16 @@ RUN passwd -l root ; \
     meson build && \
     ninja -C build -j 1 install && \
     cd / && \
-    rm -rf /tmp/* /var/tmp/* ~/.cache
+    apk --no-cache del \
+      eudev-dev \
+      boost-dev \
+      gnutls-dev \
+      openssl-dev \
+      libevent-dev \
+      v4l-utils-dev \
+      raspberrypi-dev \
+      linux-headers && \
+    rm -rf /opt/libcamera /tmp/* /var/tmp/* ~/.cache
 
 
 CMD ["/usr/bin/bash", "-l"]
